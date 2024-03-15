@@ -26,17 +26,19 @@ app.post('/upload',(req,res)=>{
 
     }
     // generate unique filename
-    const filename =uuidv4()+path.extname(filename);
-    const upload_dir=`${__dirname}/client/public/uploads`;
+    const filename =uuidv4()+path.extname(file.name);
+    const upload_dir = `${__dirname}/client/public/uploads`;
+    console.log('Upload directory:', upload_dir);
+    console.log('File to be saved:', `${upload_dir}/${filename}`);
     //save file to uploads folder
-    file.mv(`${upload_dir}/${filename}`,(e)=>{
+    file.mv(`${upload_dir}/${filename}`,(err)=>{
         if(err){
             return res.status(500).send(err)
             
         }
         res.json({
-            fileName:fileName,
-            filePath:`/uploads/${fileName}`
+            fileName:filename,
+            filePath:`/uploads/${filename}`
         })
     })
 
